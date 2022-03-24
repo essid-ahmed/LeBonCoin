@@ -33,16 +33,11 @@ class AlbumsListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(isNetworkAvailable(this)) {
             viewModel.getAlbums().
                 subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { handleAlbumsReception(it) }
                 .addTo(compositeDisposable)
-        }else
-        {
-            Toast.makeText(this,getString(R.string.no_data_available),Toast.LENGTH_LONG).show()
-        }
     }
 
      private fun onLoadSuccess(albums: List<Album>) {

@@ -12,10 +12,15 @@ class  AlbumMapper @Inject constructor() {
         return  toAlbums(albumRespList)
     }
 
-    private fun toAlbums(list: List<AlbumResp>) : List<Album>{
+     fun toAlbums(list: List<AlbumResp>) : List<Album>{
         return list.map { toAlbum(it) }
     }
-    private fun toAlbum(albumResp: AlbumResp):Album{
+     fun toAlbum(albumResp: AlbumResp):Album{
         return Album(albumResp.albumId,albumResp.id,albumResp.title,albumResp.url,albumResp.thumbnailUrl)
+    }
+
+    fun toAlbumResp(album: Album) : AlbumResp
+    {
+        return AlbumResp(album.albumId,album.id,album.title,album.url,album.thumbnailUrl)
     }
 }
