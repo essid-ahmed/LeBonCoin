@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.leboncoin.domain.models.Album
 import com.leboncoin.domain.result.AlbumResult
 import com.leboncoin.leboncoin.R
+import com.leboncoin.leboncoin.ui.adapters.AlbumsListAdapter
 import com.leboncoin.leboncoin.utils.isNetworkAvailable
 import com.leboncoin.leboncoin.viewmodels.AlbumsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +47,11 @@ class AlbumsListActivity : AppCompatActivity() {
 
      private fun onLoadSuccess(albums: List<Album>) {
         progress_bar.visibility= View.GONE
-        //set data into recyclerview
+         albums_list.layoutManager = LinearLayoutManager(this)
+         val adapter = AlbumsListAdapter(albums)
+         albums_list.adapter=adapter
+
+
          Log.e("TAG","onLoadSuccess $albums")
 
      }
