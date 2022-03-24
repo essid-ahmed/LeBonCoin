@@ -1,0 +1,94 @@
+/**
+ * Adding all implementation of the project
+ * All version will be managed from "/config/versionning.gradle" file
+ *
+ * We divide some implementation by category like Kotlin, Room, Retrofit, ...
+ */
+ext.implt = [:]
+def implt = [:]
+
+/**
+ * Implementation for Kotlin library
+ */
+def kotlin = [:]
+kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+implt.kotlin = kotlin
+
+def androidx = [:]
+androidx.app_compat = "androidx.appcompat:appcompat:$versions.appCompat"
+androidx.core_ktx = "androidx.core:core-ktx:$versions.coreKtx"
+androidx.recyclerview = "androidx.recyclerview:recyclerview:$versions.recyclerView"
+
+
+
+def rx=[:]
+rx.java2 = "io.reactivex.rxjava2:rxjava:$versions.rx_java2_version"
+rx.android2="io.reactivex.rxjava2:rxandroid:$versions.rx_android2_version"
+rx.kotlin="io.reactivex.rxjava2:rxkotlin:$versions.rx_kotlin_version"
+implt.rx=rx
+
+def room = [:]
+room.runtime="androidx.room:room-runtime:$versions.room"
+room.compiler="androidx.room:room-compiler:$versions.room"
+room.rxjava2="androidx.room:room-rxjava2:$versions.room"
+room.guava="androidx.room:room-guava:$versions.room"
+room.kotlin="androidx.room:room-ktx:$versions.room"
+implt.room = room
+
+def arch = [:]
+arch.core_runtime = "androidx.arch.core:core-runtime:$versions.arch_core"
+androidx.arch = arch
+
+androidx.core = "androidx.test:core:$versions.atsl_core"
+androidx.ext_junit = "androidx.test.ext:junit:$versions.atsl_junit"
+androidx.runner = "androidx.test:runner:$versions.atsl_runner"
+androidx.rules = "androidx.test:rules:$versions.atsl_rules"
+androidx.multidex ="androidx.multidex:multidex:$versions.multidex"
+implt.androidx = androidx
+
+def dagger = [:]
+dagger.runtime = "com.google.dagger:dagger:$versions.dagger"
+dagger.android = "com.google.dagger:dagger-android:$versions.dagger"
+dagger.android_support = "com.google.dagger:dagger-android-support:$versions.dagger"
+dagger.compiler = "com.google.dagger:dagger-compiler:$versions.dagger"
+dagger.android_support_compiler = "com.google.dagger:dagger-android-processor:$versions.dagger"
+implt.dagger = dagger
+
+def hilt = [:]
+hilt.android="com.google.dagger:hilt-android:$versions.hilt"
+hilt.compiler="com.google.dagger:hilt-android-compiler:$versions.hilt"
+hilt.lifecycle="androidx.hilt:hilt-lifecycle-viewmodel:$versions.hilt_lifecycle"
+implt.hilt=hilt
+
+def retrofit = [:]
+retrofit.gson = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+retrofit.adapter="com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
+retrofit.android="com.squareup.retrofit2:retrofit:$versions.retrofit"
+implt.retrofit = retrofit
+
+def google =[:]
+google.gson="com.google.code.gson:gson:$versions.gson"
+
+implt.google=google
+
+def layout =[:]
+layout.constraint_layout="androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
+layout.material_design="com.google.android.material:material:$versions.material_design"
+layout.rounded_image_view="com.joooonho:selectableroundedimageview:$versions.rounded_image_view"
+implt.layout=layout
+
+def exoplayer =[:]
+exoplayer.core="com.google.android.exoplayer:exoplayer-core:$versions.exoplayer"
+exoplayer.dash="com.google.android.exoplayer:exoplayer-dash:$versions.exoplayer"
+exoplayer.ui="com.google.android.exoplayer:exoplayer-ui:$versions.exoplayer"
+implt.exoplayer=exoplayer
+
+def picasso = [:]
+picasso.android="com.squareup.picasso:picasso:$versions.picasso"
+implt.picasso=picasso
+
+def joda = [:]
+joda.android="net.danlew:android.joda:$versions.joda_time"
+implt.joda=joda
+
+ext.implt = implt

@@ -1,0 +1,19 @@
+/**
+ * Adding all class path that will be used in the project
+ * All version will be managed from "/config/versionning.gradle" file
+ */
+ext.class_path = [:]
+def class_path = [:]
+
+def kotlin = [:]
+kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+kotlin.allopen = "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin"
+class_path.kotlin = kotlin
+
+
+
+class_path.android_gradle_plugin = "com.android.tools.build:gradle:$versions.androidGradlePlugin"
+
+class_path.hitl="com.google.dagger:hilt-android-gradle-plugin:$versions.hilt"
+
+ext.class_path = class_path

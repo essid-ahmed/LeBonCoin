@@ -1,4 +1,4 @@
-package com.example.leboncoin
+package com.leboncoin.domain
 
 import org.junit.Test
 

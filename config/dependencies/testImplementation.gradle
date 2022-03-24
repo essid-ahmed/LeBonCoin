@@ -1,0 +1,22 @@
+/**
+ * Adding all test implementation of the project
+ * All version will be managed from "/config/versionning.gradle" file
+ *
+ * We divide some implementation by category like mockito, androidx, ...
+ */
+ext.test_implt = [:]
+def test_implt = [:]
+
+test_implt.junit = "junit:junit:$versions.junit"
+
+def andrdx = [:]
+andrdx.ext_junit = "androidx.test.ext:junit:$versions.andrdx_test_junit"
+andrdx.espresso_core = "androidx.test.espresso:espresso-core:$versions.andrdx_test_espresso"
+test_implt.andrdx = andrdx
+
+def mockito = [:]
+mockito.core = "com.nhaarman:mockito-kotlin:$versions.mockito"
+mockito.inline = "org.mockito:mockito-inline:$versions.mockito_inline"
+test_implt.mockito = mockito
+
+ext.test_implt = test_implt
