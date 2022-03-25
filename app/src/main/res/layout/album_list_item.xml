@@ -14,11 +14,9 @@
         android:id="@+id/album_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="2"
         app:layout_constraintBottom_toBottomOf="@+id/album_pic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="@dimen/item_text_margin"/>
+        style="@style/CustomText"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

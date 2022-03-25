@@ -1,16 +1,17 @@
 package com.leboncoin.leboncoin.ui.activities
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Parcelable
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.leboncoin.domain.models.Album
 import com.leboncoin.domain.result.AlbumResult
 import com.leboncoin.leboncoin.R
 import com.leboncoin.leboncoin.ui.adapters.AlbumsListAdapter
-import com.leboncoin.leboncoin.utils.isNetworkAvailable
 import com.leboncoin.leboncoin.viewmodels.AlbumsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,6 +24,14 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class AlbumsListActivity : AppCompatActivity() {
+    private val LIST_STATE_KEY = "LIST_STATE_KEY"
+    private var mListState: Parcelable? = null
+    val Any.TAG: String
+        get() {
+            val tag = javaClass.simpleName
+            return if (tag.length <= 23) tag else tag.substring(0, 23)
+        }
+    lateinit var layoutManager : LinearLayoutManager
     @Inject lateinit var viewModel:AlbumsViewModel
     private val compositeDisposable = CompositeDisposable()
 
@@ -32,6 +41,9 @@ class AlbumsListActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        if (mListState != null) {
+            layoutManager.onRestoreInstanceState(mListState);
+        }
         super.onResume()
             viewModel.getAlbums().
                 subscribeOn(Schedulers.io())
@@ -42,25 +54,23 @@ class AlbumsListActivity : AppCompatActivity() {
 
      private fun onLoadSuccess(albums: List<Album>) {
         progress_bar.visibility= View.GONE
-         albums_list.layoutManager = LinearLayoutManager(this)
-         val adapter = AlbumsListAdapter(albums)
-         albums_list.adapter=adapter
-
-
-         Log.e("TAG","onLoadSuccess $albums")
-
+        layoutManager= LinearLayoutManager(this)
+        albums_list.layoutManager =layoutManager
+        val adapter = AlbumsListAdapter(albums)
+        albums_list.adapter=adapter
+        Log.d(TAG,"onLoadSuccess $albums")
      }
 
      private fun onLoadError() {
         progress_bar.visibility= View.GONE
         empty_view.visibility=View.VISIBLE
-         Log.e("TAG","onLoadError")
+         Log.e(TAG,"onLoadError")
 
      }
 
      private fun onStartLoading() {
         progress_bar.visibility= View.VISIBLE
-        Log.e("TAG","onStartLoading")
+        Log.d(TAG,"onStartLoading")
     }
     private fun handleAlbumsReception(result: AlbumResult) {
 
@@ -85,4 +95,24 @@ class AlbumsListActivity : AppCompatActivity() {
         super.onDestroy()
         compositeDisposable.dispose()
     }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        mListState = layoutManager.onSaveInstanceState();
+        outState.putParcelable(LIST_STATE_KEY, mListState);
+
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        if (savedInstanceState != null)
+            mListState = savedInstanceState.getParcelable<Parcelable>(LIST_STATE_KEY)
+
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        Log.d(TAG,"onConfigChanged")
+    }
+
 }
