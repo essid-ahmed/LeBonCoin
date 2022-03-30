@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".LeBonCoinApplication"
         android:allowBackup="true"
@@ -11,11 +12,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.LeBonCoin">
-        <activity android:name=".ui.activities.AlbumsListActivity"
-            android:exported="true"
-            android:configChanges="orientation|screenSize">
+        <activity
+            android:name=".ui.activities.AlbumDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.AlbumsListActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

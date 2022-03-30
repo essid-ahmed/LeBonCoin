@@ -10,7 +10,7 @@ import com.leboncoin.domain.models.Album
 import com.leboncoin.leboncoin.R
 import com.squareup.picasso.Picasso
 
-class AlbumsListAdapter(private val mList: List<Album>) : RecyclerView.Adapter<AlbumsListAdapter.ViewHolder>() {
+class AlbumsListAdapter(private val mList: List<Album>,private val onAlbumClickListener: OnAlbumClickListener) : RecyclerView.Adapter<AlbumsListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -23,8 +23,9 @@ class AlbumsListAdapter(private val mList: List<Album>) : RecyclerView.Adapter<A
         val album = mList[position]
         Picasso.get()
             .load(album.thumbnailUrl)
-            .into(holder.imageView);
+            .into(holder.imageView)
         holder.textView.text = album.title
+        holder.itemView.setOnClickListener { onAlbumClickListener.onAlbumClick(mList[position]) }
     }
 
     override fun getItemCount(): Int {

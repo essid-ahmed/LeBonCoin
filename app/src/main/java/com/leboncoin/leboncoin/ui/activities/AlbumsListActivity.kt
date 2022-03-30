@@ -1,5 +1,6 @@
 package com.leboncoin.leboncoin.ui.activities
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Parcelable
@@ -12,6 +13,8 @@ import com.leboncoin.domain.models.Album
 import com.leboncoin.domain.result.AlbumResult
 import com.leboncoin.leboncoin.R
 import com.leboncoin.leboncoin.ui.adapters.AlbumsListAdapter
+import com.leboncoin.leboncoin.ui.adapters.OnAlbumClickListener
+import com.leboncoin.leboncoin.utils.album_intent_key
 import com.leboncoin.leboncoin.viewmodels.AlbumsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,15 +26,15 @@ import kotlinx.android.synthetic.main.empty_view.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AlbumsListActivity : AppCompatActivity() {
+class AlbumsListActivity : AppCompatActivity(),OnAlbumClickListener {
     private val LIST_STATE_KEY = "LIST_STATE_KEY"
     private var mListState: Parcelable? = null
-    val Any.TAG: String
+    private val Any.TAG: String
         get() {
             val tag = javaClass.simpleName
             return if (tag.length <= 23) tag else tag.substring(0, 23)
         }
-    lateinit var layoutManager : LinearLayoutManager
+    private lateinit var layoutManager : LinearLayoutManager
     @Inject lateinit var viewModel:AlbumsViewModel
     private val compositeDisposable = CompositeDisposable()
 
@@ -42,7 +45,7 @@ class AlbumsListActivity : AppCompatActivity() {
 
     override fun onResume() {
         if (mListState != null) {
-            layoutManager.onRestoreInstanceState(mListState);
+            layoutManager.onRestoreInstanceState(mListState)
         }
         super.onResume()
             viewModel.getAlbums().
@@ -56,7 +59,7 @@ class AlbumsListActivity : AppCompatActivity() {
         progress_bar.visibility= View.GONE
         layoutManager= LinearLayoutManager(this)
         albums_list.layoutManager =layoutManager
-        val adapter = AlbumsListAdapter(albums)
+        val adapter = AlbumsListAdapter(albums,this)
         albums_list.adapter=adapter
         Log.d(TAG,"onLoadSuccess $albums")
      }
@@ -98,21 +101,26 @@ class AlbumsListActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
-        mListState = layoutManager.onSaveInstanceState();
-        outState.putParcelable(LIST_STATE_KEY, mListState);
+        mListState = layoutManager.onSaveInstanceState()
+        outState.putParcelable(LIST_STATE_KEY, mListState)
 
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if (savedInstanceState != null)
             mListState = savedInstanceState.getParcelable<Parcelable>(LIST_STATE_KEY)
-
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         Log.d(TAG,"onConfigChanged")
+    }
+
+    override fun onAlbumClick(album: Album) {
+        Log.d(TAG,"onAlbumClick  $album")
+        val detailsIntent = Intent(this,AlbumDetailsActivity::class.java)
+        detailsIntent.putExtra(album_intent_key,album)
+        startActivity(detailsIntent)
     }
 
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 
+const val album_intent_key="Album"
 fun isNetworkAvailable(context: Context): Boolean {
     (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).apply {
         return getNetworkCapabilities(activeNetwork)?.run {
